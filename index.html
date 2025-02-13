@@ -1,0 +1,762 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="" />
+  <meta name="description" content="Valentine's Card" />
+  <title>❤ Pa Bông</title>
+
+  <!-- Font hỗ trợ tiếng Việt -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Vietnamese:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/all.min.css">
+  <style>
+    body {
+      font-family: 'Noto Sans Vietnamese', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffd6d6;
+      perspective: 1000px;
+    }
+
+    .card {
+      width: 800px;
+      height: 600px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: all 2s ease;
+      background: #fff;
+      transform: perspective(2500px);
+      box-shadow: inset 300px 0 50px rgba(0,0,0,.5), 20px 0 60px rgba(0,0,0,.5);
+      transition: 1s;
+    }
+
+    .card:hover {
+      transform: perspective(2500px) rotate(5deg);
+      box-shadow: inset 20px 0 50px rgba(0,0,0,.5), 0 10px 100px rgba(0,0,0,.5);
+    }
+
+    .card .cover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-origin: left;
+      background: #ff7171;
+      transition: transform 2s ease;
+      transform-style: preserve-3d;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+      background: #fff;
+      transition: .7s;
+    }
+
+    .card.opened .cover {
+      transform: rotateY(-140deg);
+    }
+
+    .card:hover .cover {
+      transform: rotateY(-135deg);
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .card .cover::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ff7171;
+      transform: rotateY(180deg);
+      transition: .7s;
+      backface-visibility: hidden;
+    }
+
+    .card .card-content {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      position: absolute;
+      background: #fff url('img/letter-bg.jpg');
+      text-align: center;
+    }
+
+    .text1 {
+      font-size: 42px;
+      color: #ff4f4f;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .text2 {
+      font-size: 24px;
+      color: #666;
+      text-align: center;
+    }
+
+    .container {
+      position: relative;
+      margin-bottom: 50px;
+    }
+
+    .valentines {
+      position: relative;
+      top: 50px;
+      cursor: pointer;
+      animation: up 3s linear infinite;
+    }
+
+    @keyframes up {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-30px);
+      }
+    }
+
+    .envelope {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      background-color: #f08080;
+    }
+
+    .envelope:before {
+      background-color: #f08080;
+      content: "";
+      position: absolute;
+      width: 212px;
+      height: 212px;
+      transform: rotate(45deg);
+      top: -105px;
+      left: 44px;
+      border-radius: 30px 0 0 0;
+    }
+
+    .card {
+      position: absolute;
+      background-color: #eae2b7;
+      width: 270px;
+      height: 170px;
+      top: 5px;
+      left: 15px;
+      transition: 0.3s;
+      box-shadow: -5px -5px 100px rgba(0,0,0,0.4);
+    }
+
+    .text {
+      position: absolute;
+      font-family: 'Brush Script MT', cursive;
+      font-size: 28px;
+      text-align: center;
+      line-height: 25px;
+      top: 19px;
+      left: 85px;
+      color: #003049;
+    }
+
+    .front {
+      position: absolute;
+      border-right: 180px solid #f4978e;
+      border-top: 95px solid transparent;
+      border-bottom: 100px solid transparent;
+      left: 120px;
+      top: 5px;
+      width: 0;
+      height: 0;
+      z-index: 10;
+    }
+
+    .front:before {
+      position: absolute;
+      content: "";
+      border-left: 300px solid #f8ad9d;
+      border-top: 195px solid transparent;
+      left: -120px;
+      top: -95px;
+      width: 0;
+      height: 0;
+    }
+
+    .shadow {
+      position: absolute;
+      width: 330px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: rgba(0,0,0,0.3);
+      top: 265px;
+      left: -15px;
+      animation: scale 3s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes scale {
+      0%, 100% {
+        transform: scaleX(1);
+      }
+      50% {
+        transform: scaleX(0.85);
+      }
+    }
+
+    .heart {
+      background-color: #d62828;
+      display: inline-block;
+      height: 30px;
+      margin: 0 10px;
+      position: relative;
+      top: 110px;
+      left: 105px;
+      transform: rotate(-45deg);
+      width: 30px;
+    }
+
+    .heart:before,
+    .heart:after {
+      content: "";
+      background-color: #d62828;
+      border-radius: 50%;
+      height: 30px;
+      position: absolute;
+      width: 30px;
+    }
+
+    .heart:before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart:after {
+      left: 15px;
+      top: 0;
+    }
+
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 100%;  /* Cover full height */
+      z-index: 1;
+    }
+
+    .one, .two, .three, .four, .five {
+      background-color: red;
+      display: inline-block;
+      height: 10px;
+      margin: 0 10px;
+      position: absolute;  /* Changed to absolute */
+      transform: rotate(-45deg);
+      width: 10px;
+    }
+
+    .one:before, .one:after, .two:before, .two:after,
+    .three:before, .three:after, .four:before, .four:after,
+    .five:before, .five:after {
+      content: "";
+      background-color: red;
+      border-radius: 50%;
+      height: 10px;
+      position: absolute;
+      width: 10px;
+    }
+
+    .one:before, .two:before, .three:before, .four:before, .five:before {
+      top: -5px;
+      left: 0;
+    }
+
+    .one:after, .two:after, .three:after, .four:after, .five:after {
+      left: 5px;
+      top: 0;
+    }
+
+    .one {
+      left: 10px;
+      top: 30px;
+      animation: heart 1s ease-out infinite;
+    }
+
+    .two {
+      left: 30px;
+      top: 80px;
+      animation: heart 2s ease-out infinite;
+    }
+
+    .three {
+      left: 50px;
+      top: 60px;
+      animation: heart 1.5s ease-out infinite;
+    }
+
+    .four {
+      left: 70px;
+      top: 40px;
+      animation: heart 2.3s ease-out infinite;
+    }
+
+    .five {
+      left: 90px;
+      top: 70px;
+      animation: heart 1.7s ease-out infinite;
+    }
+
+    @keyframes heart {
+      0% {
+        transform: translateY(0) rotate(-45deg) scale(0.3);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-150px) rotate(-45deg) scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    /* Remove the global font style rule */
+    .ft-page h2,
+    .ft-page h3,
+    .ft-page p,
+    .ft-page .text,
+    .center-text,
+    .top-text {
+      font-family: 'Dancing Script', cursive !important;
+      color: #d62828;
+      /* Remove font-size and line-height to keep original sizes */
+    }
+
+    /* Keep specific styles for the final page */
+    #/section-9/page-4 .text {
+      font-family: 'Dancing Script', cursive;
+      line-height: 2;
+      /* Keep original font size */
+      font-size: 28px;
+    }
+
+    /* Keep original ESC hint style */
+    .esc-hint {
+      font-family: 'Noto Sans Vietnamese', sans-serif !important;
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="valentines">
+      <div class="envelope"></div>
+      <div class="front"></div>
+      <div class="card">
+        <div class="text">Happy<br> Valentine's<br> Day!</div>
+        <div class="heart"></div>
+      </div>
+      <div class="hearts">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+        <div class="four"></div>
+        <div class="five"></div>
+      </div>
+    </div>
+    <div class="shadow"></div>
+  </div>
+
+  <div class="flowtime" style="display: none;">
+    <div class="ft-section section-1" data-id="section-1">
+      <div id="/section-1/page-1" class="ft-page page-1" data-id="page-1">
+        <p class="text1">- ❤ Pa Bông và Kiên ngơ -</p>
+        <p class="text2">Nhấn phím "↓" để lắng nghe lời kể của tôi</p>
+      </div>
+      <div id="/section-1/page-2" class="ft-page page-2" data-id="page-2">
+        <p class="top-text">Trước đây, Kiên ngơ luôn sống một mình, tận hưởng sự cô đơn, nhưng cũng khao khát tình yêu.</p>
+        <img src='img/iali63.jpg' alt="Trước đây, Kiên ngơ luôn sống một mình, tận hưởng sự cô đơn, và cũng khao khát tình yêu." />
+      </div>
+      <div id="/section-1/page-3" class="ft-page page-3 left-img" data-id="page-3">
+        <h2 class="text">Trong hành lang một mình</h2>
+        <img src='img/iali35.jpg' alt="Hành lang một mình" />
+      </div>
+      <div id="/section-1/page-4" class="ft-page page-4 full-img" data-id="page-4">
+        <h2 class="center-text">Đồi núi một mình</h2>
+        <img src='img/iali6.jpg' alt="Đồi núi một mình" />
+      </div>
+    </div>
+    <div class="ft-section section-2" data-id="section-2">
+      <div id="/section-2/page-1" class="ft-page page-5 full-img" data-id="page-1">
+        <h2 class="center-text">Tàu điện ngầm một mình</h2>
+        <img src='img/iali19.jpg' alt="Tàu điện ngầm một mình" />
+      </div>
+      <div id="/section-2/page-2" class="ft-page page-6" data-id="page-2">
+        <h2 class="center-text">Khu vui chơi một mình</h2>
+        <img src='img/iali29.jpg' alt="Khu vui chơi một mình" />
+      </div>
+      <div id="/section-2/page-3" class="ft-page page-7" data-id="page-3">
+        <h3>Nhưng anh ấy vẫn lạc quan, vui vẻ chờ đợi</h3>
+        <img src='img/iali60.jpg' alt="Nhưng anh ấy vẫn lạc quan, mỉm cười, chờ đợi" />
+      </div>
+      <div id="/section-2/page-4" class="ft-page page-8 full-img" data-id="page-4">
+        <h3>Cuộc sống không tránh khỏi sóng gió</h3>
+        <img src='img/iali51.jpg' alt="Cuộc sống không tránh khỏi sóng gió" />
+      </div>
+      <div id="/section-2/page-5" class="ft-page page-9" data-id="page-5">
+        <h3>Anh ấy luôn có thể đối phó nhẹ nhàng</h3>
+        <img src='img/iali5.jpg' alt="Anh ấy luôn có thể đối phó nhẹ nhàng" />
+      </div>
+      <div id="/section-2/page-6" class="ft-page page-10" data-id="page-6">
+        <h3>Và luôn nở nụ cười rạng rỡ, tự tin</h3>
+        <img src='img/iali22.jpg' alt="Và luôn nở nụ cười rạng rỡ, tự tin" />
+      </div>
+    </div>
+    <div class="ft-section section-3" data-id="section-3">
+      <div id="/section-3/page-1" class="ft-page page-11 full-img" data-id="page-1">
+        <h3>Cuộc sống cũng sẽ không phải lúc nào cũng suôn sẻ</h3>
+        <img src='img/iali24.jpg' alt="Cuộc sống cũng sẽ không phải lúc nào cũng suôn sẻ" />
+      </div>
+      <div id="/section-3/page-2" class="ft-page page-12" data-id="page-2">
+        <h3>Nhưng anh ấy luôn dũng cảm đối mặt<br/>sẵn sàng đón nhận mọi thử thách cuộc sống</h3>
+        <img src='img/iali25.jpg' alt="Nhưng anh ấy luôn dũng cảm đối mặt" />
+      </div>
+      <div id="/section-3/page-3" class="ft-page page-13" data-id="page-3">
+        <img src='img/iali64.jpg' alt='Nhưng tình yêu của Kiên ngơ ở đâu?' />
+        <h3>Nhưng tình yêu của Kiên ngơ ở đâu rồi?</h3>
+      </div>
+      <div id="/section-3/page-4" class="ft-page page-14 left-img" data-id="page-4">
+        <h3>Trong gương sao? Anh ấy không dám tin</h3>
+        <img src='img/iali46.jpg' alt="Trong gương sao? Anh ấy không dám tin" />
+      </div>
+      <div id="/section-3/page-5" class="ft-page page-15 left-img" data-id="page-5">
+        <h3>Anh ấy hỏi cái cây, tình yêu của tôi ở đâu?<br/>Cái cây bảo anh ấy rằng, có lẽ ở ngay gần thôi</h3>
+        <img src='img/iali45.jpg' alt="Anh ấy hỏi cái cây, tình yêu của tôi ở đâu?" />
+      </div>
+      <div id="/section-3/page-6" class="ft-page page-16 left-img" data-id="page-6">
+        <h3>Thế là, Kiên ngơ tiếp tục tiến về phía trước một mình<br/>bước đi trong mênh mông tuyết trắng</h3>
+        <img src='img/iali66.jpg' alt="Thế là, Kiên ngơ cứ một mình tiến về phía trước" />
+      </div>
+      <div id="/section-3/page-7" class="ft-page page-17 top-text" data-id="page-7">
+        <h3>Cho đến một ngày, Kiên ngơ gặp Pa Bông</h3>
+        <img src='img/iali16.jpg' alt="Cho đến một ngày, Kiên ngơ và Pa Bông gặp nhau" />
+      </div>
+    </div>
+    <div class="ft-section section-4" data-id="section-4">
+      <div id="/section-4/page-1" class="ft-page page-18 full-img" data-id="page-1">
+        <p class="text">Kiên ngơ thích Pa Bông, vì sự xuất hiện của Pa Bông, gương mặt Kiên ngơ càng thêm rạng rỡ</p>
+        <img src='img/iali11.jpg' alt="Kiên ngơ thích Pa Bông, vì Pa Bông xuất hiện, gương mặt Kiên ngơ càng thêm rạng rỡ" />
+      </div>
+      <div id="/section-4/page-2" class="ft-page page-19" data-id="page-2">
+        <h3>Nhưng Pa Bông có thích Kiên ngơ không?</h3>
+        <img src="img/iali75.jpg" alt="Nhưng Pa Bông có thích Kiên ngơ không?" />
+      </div>
+      <div id="/section-4/page-3" class="ft-page page-20" data-id="page-3">
+        <img src='img/iali59.png' alt="Cuối cùng có một ngày, Kiên ngơ lấy hết can đảm." />
+        <h3>Cuối cùng, có một ngày, Kiên ngơ lấy hết can đảm</h3>
+        <img src='img/iali9.jpg' />
+      </div>
+      <div id="/section-4/page-4" class="ft-page page-21" data-id="page-4">
+        <h3>Kiên ngơ rất vui</h3>
+        <img src='img/iali59.png' alt="Kiên ngơ rất vui" />
+      </div>
+      <div id="/section-4/page-5" class="ft-page page-22 left-img" data-id="page-5">
+        <h3>Mỗi ngày, Kiên ngơ đều đến tìm Pa Bông</h3>
+        <img src='img/iali4.jpg' alt="Mỗi ngày, Kiên ngơ đều đến tìm Pa Bông" />
+      </div>
+      <div id="/section-4/page-6" class="ft-page page-23 left-img" data-id="page-6">
+        <h3>Sau đó hai người cùng nhau đi chơi</h3>
+        <img src='img/iali44.jpg' alt="Sau đó hai người cùng nhau đi chơi" />
+      </div>
+      <div id="/section-4/page-7" class="ft-page page-24 full-img" data-id="page-7">
+        <h3>Buổi tối, Kiên ngơ sẽ đưa Pa Bông về nhà</h3>
+        <img src='img/iali32.jpg' alt="Buổi tối, Kiên ngơ sẽ đưa Pa Bông về nhà" />
+      </div>
+    </div>
+    <div class="ft-section section-5" data-id="section-5">
+      <div id="/section-5/page-1" class="ft-page page-25 left-img" data-id="page-1">
+        <h3>Cho đến rất muộn<br/>Kiên ngơ mới một mình về nhà</h3>
+        <img src='img/iali37.jpg' alt="Cho đến rất muộn" />
+      </div>
+      <div id="/section-5/page-2" class="ft-page page-26 top-text" data-id="page-2">
+        <h3>Sau đó vui vẻ chìm vào giấc mơ, hy vọng mơ thấy Pa Bông</h3>
+        <img src='img/iali10.gif' alt="Sau đó vui vẻ chìm vào giấc mơ, hy vọng mơ thấy Pa Bông" />
+      </div>
+      <div id="/section-5/page-3" class="ft-page page-27" data-id="page-3">
+        <h3>Kiên ngơ nhanh chóng trở thành trợ thủ mua sắm của Pa Bông</h3>
+        <img src='img/iali67.jpg' alt="Kiên ngơ nhanh chóng trở thành trợ thủ mua sắm của Pa Bông" />
+      </div>
+      <div id="/section-5/page-4" class="ft-page page-28" data-id="page-4">
+        <h3>Kiên ngơ và Pa Bông đã cùng nhau đi chơi rất nhiều nơi</h3>
+        <img src='img/iali40.jpg' alt="Kiên ngơ và Pa Bông đã cùng nhau đi chơi rất nhiều nơi" />
+      </div>
+      <div id="/section-5/page-5" class="ft-page page-29" data-id="page-5">
+        <h3>Kiên ngơ cũng trở thành một người mê ăn uống như Pa Bông</h3>
+        <img src='img/iali12.jpg' alt="Kiên ngơ cũng trở thành một người mê ăn uống như Pa Bông" />
+      </div>
+      <div id="/section-5/page-6" class="ft-page page-30" data-id="page-6">
+        <h3>Sau đó, họ chuyển đến sống cùng nhau</h3>
+        <img src='img/iali76.gif' alt="Sau đó, họ chuyển đến sống cùng nhau" />
+      </div>
+      <div id="/section-5/page-7" class="ft-page page-31" data-id="page-7">
+        <h3>Thế là Kiên ngơ bắt đầu học những kỹ năng mới</h3>
+        <img src='img/iali77.jpg' alt="Thế là Kiên ngơ bắt đầu học những kỹ năng mới" />
+      </div>
+    </div>
+    <div class="ft-section section-6" data-id="section-6">
+      <div id="/section-6/page-1" class="ft-page page-32" data-id="page-1">
+        <h3>Nấu ăn</h3>
+        <img src='img/iali62.jpg' alt="Nấu ăn" />
+      </div>
+      <div id="/section-6/page-2" class="ft-page page-33 top-text" data-id="page-2">
+        <h3>Mỗi sáng, họ ăn những món ăn ngon tự nấu</h3>
+        <img src='img/iali3.jpg' alt="Mỗi sáng, họ ăn những món ăn ngon tự nấu" />
+      </div>
+      <div id="/section-6/page-3" class="ft-page page-34 left-img" data-id="page-3">
+        <h3>Sau đó cùng nhau vui vẻ đi làm</h3>
+      </div>
+      <div id="/section-6/page-4" class="ft-page page-35" data-id="page-4">
+        <h3>Kiên ngơ cảm thấy mình thật hạnh phúc.<br/>Vì mình đã có một gia đình<br/>Nơi có Pa Bông</h3>
+        <img src='img/iali8.gif' alt="Kiên ngơ cảm thấy mình thật hạnh phúc." />
+      </div>
+      <div id="/section-6/page-5" class="ft-page page-36 full-img" data-id="page-5">
+        <h3>Thỉnh thoảng họ cũng cãi nhau</h3>
+        <img src='img/iali31.jpg' alt="Thỉnh thoảng họ cũng cãi nhau" />
+      </div>
+      <div id="/section-6/page-6" class="ft-page page-37 left-img" data-id="page-6">
+        <h3>Kiên ngơ không muốn như vậy</h3>
+        <img src='img/iali49.jpg' alt="Kiên ngơ không muốn như vậy" />
+      </div>
+      <div id="/section-6/page-7" class="ft-page page-38 bottom-text" data-id="page-7">
+        <img src='img/iali21.jpg' alt="Chắc chắn là mình đã làm gì đó không đúng, Kiên ngơ nghĩ" />
+        <h3>Chắc chắn là mình đã làm gì đó không đúng, Kiên ngơ nghĩ</h3>
+      </div>
+    </div>
+    <div class="ft-section section-7" data-id="section-7">
+      <div id="/section-7/page-1" class="ft-page page-39 left-img" data-id="page-1">
+        <h3>Nếu không có Pa Bông bên cạnh, ngoài cửa sổ sẽ không có cảnh đẹp</h3>
+        <img src='img/iali2.jpg' alt="Nếu không có Pa Bông bên cạnh, ngoài cửa sổ sẽ không có cảnh đẹp" />
+      </div>
+      <div id="/section-7/page-2" class="ft-page page-40" data-id="page-2">
+        <h3>Nếu không có Pa Bông phía sau</h3>
+        <img src='img/iali14.jpg' alt="{text45_}" />
+      </div>
+      <div id="/section-7/page-3" class="ft-page page-41" data-id="page-3">
+        <img src='img/iali30_1.jpg' class='img1' alt="Kiên ngơ làm sao có thể bay cao và xa hơn" />
+        <img src='img/iali30_2.jpg' class='img2' alt="Kiên ngơ làm sao có thể bay cao và xa hơn 2" />
+        <h3>Kiên ngơ làm sao có thể bay cao và xa hơn</h3>
+      </div>
+      <div id="/section-7/page-4" class="ft-page page-42" data-id="page-4">
+        <h3>Kiên ngơ không muốn như vậy. Anh ấy muốn thay đổi bản thân vì Pa Bông<br/>Pa Bông nói cô ấy thích người thuộc cung Sư Tử, thế là Kiên ngơ ước nguyện</h3>
+        <img src='img/iali69.jpg' alt="Kiên ngơ không muốn như vậy. Anh ấy muốn thay đổi bản thân vì Pa Bông" />
+      </div>
+      <div id="/section-7/page-5" class="ft-page page-43" data-id="page-5">
+        <img src='img/iali42.jpg' alt="Tôi nguyện vì em mà trở thành cung Sư Tử" />
+        <h3>Tôi nguyện vì em mà trở thành cung Sư Tử</h3>
+      </div>
+      <div id="/section-7/page-6" class="ft-page page-44 left-img" data-id="page-6">
+        <h3>Tình yêu giống như hoa cỏ<br/>Cần được tưới bằng sự bao dung</h3>
+        <img src='img/iali0.jpg' alt="Tình yêu giống như hoa cỏ" />
+      </div>
+      <div id="/section-7/page-7" class="ft-page page-45 left-img" data-id="page-7">
+        <h3 style="margin-top: -20px; margin-left: 20px;">Sắp Valungtung. Kiên ngơ bắt đầu chuẩn bị quà cho Pa Bông</h3>
+        <img src='img/iali18.jpg' alt="Sắp Valungtung" />
+      </div>
+    </div>
+    <div class="ft-section section-8" data-id="section-8">
+      <div id="/section-8/page-1" class="ft-page page-46" data-id="page-1">
+        <img src='img/iali57.gif' alt="Nhìn thấy quà đã chuẩn bị xong" />
+        <div style="position:absolute; bottom:20px; left:0; right:0; text-align:center; font-family: 'Dancing Script', cursive; font-size: 28px; line-height: 2; color: #d62828;">
+          Nhìn thấy quà đã chuẩn bị xong Kiên ngơ rất vui<br/>
+          Anh ấy không khỏi tưởng tượng khoảnh khắc Pa Bông nhận được quà, sẽ nở một nụ cười thật đẹp
+        </div>
+      </div>
+      <div id="/section-8/page-2" class="ft-page page-47 top-text" data-id="page-2">
+        <img src='img/iali58.jpg' alt="Nghĩ đến sau này còn cả đời" />
+        <div style="position:absolute; bottom:20px; left:0; right:0; text-align:center; font-size:26px; line-height:1.8; font-weight:bold;">
+          Nghĩ đến sau này còn cả đời Kiên ngơ rất vui<br/>
+          Vì có thể cùng Pa Bông đi chơi rất nhiều nơi trên thế giới
+        </div>
+      </div>
+      <div id="/section-8/page-3" class="ft-page page-48 left-img" data-id="page-3">
+        <p>Kiên ngơ cũng sẽ tiếp tục cố gắng<br/>Vì lâu đài mơ ước của anh ấy và Pa Bông</p>
+        <img src='img/iali65.jpg' alt="Kiên ngơ cũng sẽ tiếp tục cố gắng" />
+      </div>
+      <div id="/section-8/page-4" class="ft-page page-49 full-img" data-id="page-4">
+
+        <img src='img/iali71.jpg' alt="Kiên ngơ rất hạnh phúc, vì anh ấy đã tìm thấy Pa Bông. Anh ấy tin rằng mỗi ngày sau này sẽ đều là những ngày vui vẻ" />
+      </div>
+      <div id="/section-8/page-5" class="ft-page page-50" data-id="page-5">
+        <p class='text'>Sau này, có một ngày, Pa Bông nói cô ấy không dám đi tàu lượn nữa, thế là Kiên ngơ đưa cô ấy đi chơi chỗ khác. Đây chỉ là một chuyện nhỏ trong cuộc sống hạnh phúc của họ, nhỏ đến mức không ai để ý. Nhưng đây là cuộc sống hạnh phúc của Kiên ngơ và Pa Bông.</p>
+        <img src='img/iali50_1.jpg' class='img1' alt="Sau này, có một ngày, Pa Bông nói cô ấy không dám đi tàu lượn nữa, thế là Kiên ngơ đưa cô ấy đi chơi chỗ khác. Đây chỉ là một chuyện nhỏ trong cuộc sống hạnh phúc của họ, nhỏ đến mức không ai để ý. Nhưng đây là cuộc sống hạnh phúc của Kiên ngơ và Pa Bông." />
+        <img src='img/iali50_2.jpg' class='img2' alt="Sau này, có một ngày, Pa Bông nói cô ấy không dám đi tàu lượn nữa, thế là Kiên ngơ đưa cô ấy đi chơi chỗ khác. Đây chỉ là một chuyện nhỏ trong cuộc sống hạnh phúc của họ, nhỏ đến mức không ai để ý. Nhưng đây là cuộc sống hạnh phúc của Kiên ngơ và Pa Bông. 2" />
+      </div>
+      <div id="/section-8/page-6" class="ft-page page-51" data-id="page-6">
+        <p>
+          Pa Bông: Mãi mãi là bao lâu?<br/> Kiên ngơ: Chỉ cần hơn một giây so với thời gian, đó là mãi mãi, anh sẽ mãi mãi yêu em
+          <br/> Pa Bông: Thế giới rộng lớn bao nhiêu?
+          <br/> Kiên ngơ: Em đi đến đâu, thế giới rộng lớn đến đó
+        </p>
+      </div>
+    </div>
+    <div class="ft-section section-9" data-id="section-9">
+      <div id="/section-9/page-1" class="ft-page page-52 full-img" data-id="page-1">
+        <h3>Nguyện được một lòng người, bạc đầu không chia lìa</h3>
+        <img src='img/iali20.jpg' alt="Nguyện được một lòng người, bạc đầu không chia lìa" />
+      </div>
+      <div id="/section-9/page-2" class="ft-page page-53" data-id="page-2">
+        <img src='img/iali68.jpg' alt="Chúc mừng ngày lễ tình nhân" />
+        <h3>Chúc mừng ngày lễ tình nhân</h3>
+      </div>
+      <div id="/section-9/page-3" class="ft-page page-54 center-img" data-id="page-3">
+        <div class="center-img">I love you</div>
+      </div>
+      <div id="/section-9/page-4" class="ft-page page-55 right-img" data-id="page-4">
+        <img src='img/14915.jpg' alt="Câu chuyện của Kiên ngơ và Pa Bông sẽ tiếp tục." />
+        <p class="text" style="font-family: 'Dancing Script', cursive; font-size: 28px; line-height: 2; color: #d62828;">
+          Câu chuyện của Kiên ngơ và Pa Bông sẽ tiếp tục.<br/>
+          Dù là những khoảnh khắc tuyệt vời hay bình dị, họ đều yêu thích.
+          <br/>
+          <br/>
+          <span style="font-family: 'Noto Sans Vietnamese', sans-serif; font-size: 16px; color: #666;">
+            -- Nhấn phím "Esc" để có bất ngờ
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <iframe src="http://music.163.com/outchain/player?type=2&id=26830666&auto=1&height=66" frameBorder="0" width="0" scrolling="no" height="0" target="_blank"></iframe>
+
+  <script src="http://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
+  <script src="js/all.min.js"></script>
+  <script src="js/love.min.js"></script>
+  <div class="mPower"><span id="on" title="点击暂停"></span><span id="off" title="点击播放"></script></div>
+
+  <script>
+    document.querySelector('.card').addEventListener('click', function() {
+      this.classList.add('opened');
+      setTimeout(() => {
+        document.querySelector('.flowtime').style.display = 'block';
+      }, 2000);
+    });
+
+    document.querySelector('.container').addEventListener('mouseenter', function() {
+      document.querySelector('.card').style.top = '-90px';
+    });
+
+    document.querySelector('.container').addEventListener('mouseleave', function() {
+      document.querySelector('.card').style.top = '5px';
+    });
+
+    document.querySelector('.card').addEventListener('click', function() {
+      setTimeout(() => {
+        document.querySelector('.flowtime').style.display = 'block';
+      }, 1000);
+    });
+
+    document.querySelector('.valentines').addEventListener('click', function() {
+      document.querySelector('.container').style.display = 'none';
+      document.querySelector('.flowtime').style.display = 'block';
+    });
+
+    $(document).ready(function() {
+      $('.container').mouseenter(function() {
+        $('.card').stop().animate({
+          top: '-90px'
+        }, 'slow');
+      }).mouseleave(function() {
+        $('.card').stop().animate({
+          top: 0
+        }, 'slow'); 
+      });
+    });
+
+    // Add before existing scripts
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Escape") {
+        // Create heart shape with images
+        const images = document.querySelectorAll('img');
+        const originalPositions = [];
+        
+        // Store original positions
+        images.forEach(img => {
+          originalPositions.push({
+            position: img.style.position,
+            top: img.style.top,
+            left: img.style.left
+          });
+        });
+
+        // Arrange images in heart shape
+        images.forEach((img, index) => {
+          img.style.position = 'fixed';
+          img.style.transition = 'all 1s';
+          img.style.width = '50px';
+          img.style.height = '50px';
+          
+          // Heart shape coordinates calculation
+          const angle = (index / images.length) * Math.PI * 2;
+          const x = Math.cos(angle) * 150 + window.innerWidth/2;
+          const y = Math.sin(angle) * 150 + window.innerHeight/2;
+          
+          img.style.left = x + 'px';
+          img.style.top = y + 'px';
+        });
+
+        // Add message at top
+        const message = document.createElement('div');
+        message.style.position = 'fixed';
+        message.style.top = '20px'; // Changed from bottom to top
+        message.style.width = '100%';
+        message.style.textAlign = 'center';
+        message.style.fontSize = '24px';
+        message.style.color = '#ff4f4f';
+        message.style.fontWeight = 'bold';
+        message.innerHTML = 'Dm Pa Bong 14-2 doi tui ae a';
+        document.body.appendChild(message);
+
+        // Reset after 5 seconds
+        setTimeout(() => {
+          images.forEach((img, index) => {
+            Object.assign(img.style, originalPositions[index]);
+          });
+          message.remove();
+          
+          // Show initial valentine card
+          document.querySelector('.container').style.display = 'block';
+          document.querySelector('.flowtime').style.display = 'none';
+        }, 5000);
+      }
+    });
+  </script>
+
+<!-- laibiaobai.cn Baidu tongji analytics -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?14cc0d484aba55c5fa653c962618f6d1";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</body>
+</html>
