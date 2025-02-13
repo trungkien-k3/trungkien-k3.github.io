@@ -761,6 +761,88 @@
         }
       }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+          try {
+            // Get all images first
+            const images = Array.from(document.querySelectorAll('img'));
+            const originalPositions = [];
+
+            // Create and add message first
+            const message = document.createElement('div');
+            message.id = 'escMessage';
+            message.style.position = 'fixed';
+            message.style.top = '20px';
+            message.style.width = '100%';
+            message.style.textAlign = 'center';
+            message.style.fontSize = '24px';
+            message.style.color = '#ff4f4f';
+            message.style.fontWeight = 'bold';
+            message.style.zIndex = '10000';
+            message.innerHTML = 'Dm Pa Bong 14-2 doi tui ae a';
+            document.body.appendChild(message);
+
+            // Store original positions
+            images.forEach(img => {
+              originalPositions.push({
+                position: img.style.position || 'static',
+                top: img.style.top || 'auto',
+                left: img.style.left || 'auto',
+                width: img.style.width || 'auto',
+                height: img.style.height || 'auto',
+                zIndex: img.style.zIndex || 'auto'
+              });
+            });
+
+            // Create heart shape
+            const radius = 150;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            images.forEach((img, index) => {
+              img.style.position = 'fixed';
+              img.style.transition = 'all 1s ease';
+              img.style.width = '50px';
+              img.style.height = '50px';
+              img.style.zIndex = '9999';
+
+              const angle = (index / images.length) * Math.PI * 2;
+              const x = Math.cos(angle) * radius + centerX - 25;
+              const y = Math.sin(angle) * radius + centerY - 25;
+
+              img.style.left = `${x}px`;
+              img.style.top = `${y}px`;
+            });
+
+            // Reset everything after 5 seconds
+            setTimeout(() => {
+              // Remove message
+              const msgElement = document.getElementById('escMessage');
+              if (msgElement) msgElement.remove();
+
+              // Reset images
+              images.forEach((img, index) => {
+                if (originalPositions[index]) {
+                  Object.assign(img.style, originalPositions[index]);
+                }
+              });
+
+              // Reset display
+              const container = document.querySelector('.container');
+              const flowtime = document.querySelector('.flowtime');
+              
+              if (container) container.style.display = 'block';
+              if (flowtime) flowtime.style.display = 'none';
+            }, 5000);
+
+          } catch (error) {
+            console.error('Error in heart animation:', error);
+          }
+        }
+      });
+    });
   </script>
 
 <!-- laibiaobai.cn Baidu tongji analytics -->
