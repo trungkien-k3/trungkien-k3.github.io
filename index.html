@@ -688,113 +688,47 @@
       });
     });
 
-    // Add before existing scripts
-    document.addEventListener('keydown', function(event) {
-      if (event.key === "Escape") {
-        try {
-          // Create heart shape with images
-          const images = document.querySelectorAll('img');
-          const originalPositions = [];
-          
-          // Store original positions and ensure images are loaded
-          images.forEach(img => {
-            if(img.complete) {
-              originalPositions.push({
-                position: img.style.position,
-                top: img.style.top,
-                left: img.style.left
-              });
-            }
-          });
-
-          // Add message first before image manipulation
-          const message = document.createElement('div');
-          message.id = 'escMessage'; // Add ID for easier removal
-          message.style.position = 'fixed';
-          message.style.top = '20px';
-          message.style.width = '100%';
-          message.style.textAlign = 'center';
-          message.style.fontSize = '24px';
-          message.style.color = '#ff4f4f';
-          message.style.fontWeight = 'bold';
-          message.style.zIndex = '9999'; // Ensure message appears on top
-          message.innerHTML = 'Dm Pa Bong 14-2 doi tui ae a';
-          document.body.appendChild(message);
-
-          // Arrange images in heart shape
-          images.forEach((img, index) => {
-            if(img.complete) {
-              img.style.position = 'fixed';
-              img.style.transition = 'all 1s';
-              img.style.width = '50px';
-              img.style.height = '50px';
-              img.style.zIndex = '9998';
-              
-              const angle = (index / images.length) * Math.PI * 2;
-              const x = Math.cos(angle) * 150 + window.innerWidth/2;
-              const y = Math.sin(angle) * 150 + window.innerHeight/2;
-              
-              img.style.left = x + 'px';
-              img.style.top = y + 'px';
-            }
-          });
-
-          // Reset after 5 seconds
-          setTimeout(() => {
-            const message = document.getElementById('escMessage');
-            if(message) {
-              message.remove();
-            }
-            
-            images.forEach((img, index) => {
-              if(originalPositions[index]) {
-                Object.assign(img.style, originalPositions[index]);
-              }
-            });
-
-            document.querySelector('.container').style.display = 'block';
-            document.querySelector('.flowtime').style.display = 'none';
-          }, 5000);
-
-        } catch (error) {
-          console.error('Error in Escape handler:', error);
-        }
-      }
-    });
-
+    // Remove all existing keydown event listeners and replace with this single one
     document.addEventListener('DOMContentLoaded', function() {
+      let isAnimating = false;
+
       document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !isAnimating) {
+          isAnimating = true;
+          
           try {
             // Get all images first
-            const images = Array.from(document.querySelectorAll('img'));
-            const originalPositions = [];
+            const images = Array.from(document.querySelectorAll('img:not([style*="display: none"])'));
+            const originalPositions = new Map();
 
-            // Create and add message first
-            const message = document.createElement('div');
-            message.id = 'escMessage';
-            message.style.position = 'fixed';
-            message.style.top = '20px';
-            message.style.width = '100%';
-            message.style.textAlign = 'center';
-            message.style.fontSize = '24px';
-            message.style.color = '#ff4f4f';
-            message.style.fontWeight = 'bold';
-            message.style.zIndex = '10000';
-            message.innerHTML = 'Dm Pa Bong 14-2 doi tui ae a';
-            document.body.appendChild(message);
-
-            // Store original positions
+            // Store original states
             images.forEach(img => {
-              originalPositions.push({
-                position: img.style.position || 'static',
-                top: img.style.top || 'auto',
-                left: img.style.left || 'auto',
-                width: img.style.width || 'auto',
-                height: img.style.height || 'auto',
-                zIndex: img.style.zIndex || 'auto'
+              originalPositions.set(img, {
+                position: img.style.position,
+                top: img.style.top,
+                left: img.style.left,
+                width: img.style.width,
+                height: img.style.height,
+                zIndex: img.style.zIndex
               });
             });
+
+            // Show message
+            if (!document.getElementById('escMessage')) {
+              const message = document.createElement('div');
+              message.id = 'escMessage';
+              message.style.position = 'fixed';
+              message.style.top = '20px';
+              message.style.left = '0';
+              message.style.width = '100%';
+              message.style.textAlign = 'center';
+              message.style.fontSize = '24px';
+              message.style.color = '#ff4f4f';
+              message.style.fontWeight = 'bold';
+              message.style.zIndex = '10000';
+              message.innerHTML = 'Dm Pa Bong 14-2 doi tui ae a';
+              document.body.appendChild(message);
+            }
 
             // Create heart shape
             const radius = 150;
@@ -802,43 +736,41 @@
             const centerY = window.innerHeight / 2;
 
             images.forEach((img, index) => {
-              img.style.position = 'fixed';
-              img.style.transition = 'all 1s ease';
-              img.style.width = '50px';
-              img.style.height = '50px';
-              img.style.zIndex = '9999';
-
               const angle = (index / images.length) * Math.PI * 2;
               const x = Math.cos(angle) * radius + centerX - 25;
               const y = Math.sin(angle) * radius + centerY - 25;
 
-              img.style.left = `${x}px`;
-              img.style.top = `${y}px`;
+              Object.assign(img.style, {
+                position: 'fixed',
+                transition: 'all 1s ease',
+                width: '50px',
+                height: '50px',
+                zIndex: '9999',
+                left: `${x}px`,
+                top: `${y}px`
+              });
             });
 
-            // Reset everything after 5 seconds
+            // Reset after 5 seconds
             setTimeout(() => {
-              // Remove message
               const msgElement = document.getElementById('escMessage');
               if (msgElement) msgElement.remove();
 
-              // Reset images
-              images.forEach((img, index) => {
-                if (originalPositions[index]) {
-                  Object.assign(img.style, originalPositions[index]);
+              images.forEach(img => {
+                const originalStyle = originalPositions.get(img);
+                if (originalStyle) {
+                  Object.assign(img.style, originalStyle);
                 }
               });
 
-              // Reset display
-              const container = document.querySelector('.container');
-              const flowtime = document.querySelector('.flowtime');
-              
-              if (container) container.style.display = 'block';
-              if (flowtime) flowtime.style.display = 'none';
+              document.querySelector('.container').style.display = 'block';
+              document.querySelector('.flowtime').style.display = 'none';
+              isAnimating = false;
             }, 5000);
 
           } catch (error) {
             console.error('Error in heart animation:', error);
+            isAnimating = false;
           }
         }
       });
